@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package api.v1.doer;
+
+option go_package = "github.com/github.com/bogatyr285/golang-boilerplate/api/v1/doer";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service DoerAPI {
+    rpc DoAwesome (DoAwesomeRequest) returns (DoAwesomeResponse) {
+        option (google.api.http) = {
+            post: "/v1/doawesome",
+            body: "*"
+        };
+    } 
+}
+message DoAwesomeRequest{
+    string input = 1 [(validate.rules).string = {min_len: 5, max_len: 10}];; 
+}
+
+message DoAwesomeResponse{
+    string msg =1;
+}

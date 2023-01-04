@@ -1,0 +1,12 @@
+app:
+  name: "doerapi"
+  listen:
+    # http gateway(proxies grpc<->http) addr
+    http: :8080
+    # grpc addr
+    grpc: :9090
+  metrics:
+    # instrumental addr with build info, swagger, prometheus metrics
+    http: :8081
+  tracing:
+    endpoint: localhost:6831
