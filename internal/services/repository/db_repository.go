@@ -12,19 +12,24 @@ var (
 	ErrInternalDBErr = fmt.Errorf("internal db error")
 )
 
+type DatabaseRepository interface {
+	GetSomething(ctx context.Context, query string) ([]*models.Something, error)
+	InsertSomething(ctx context.Context, records *models.Something) error
+}
+
 // whatever db you like
-type DatabaseRepository struct {
+type MongoDB struct {
 }
 
-func NewDatabaseRepository( /*config*/ ) *DatabaseRepository {
-	return &DatabaseRepository{}
+func NewMongoDB( /*config*/ ) *MongoDB {
+	return &MongoDB{}
 }
 
-func (d *DatabaseRepository) GetSomething(ctx context.Context, query string) ([]*models.Something, error) {
+func (d *MongoDB) GetSomething(ctx context.Context, query string) ([]*models.Something, error) {
 	// pretend its from db
 	return []*models.Something{{FieldString: query, FieldInt: 1337}}, nil
 }
-func (d *DatabaseRepository) InsertSomething(ctx context.Context, records *models.Something) error {
+func (d *MongoDB) InsertSomething(ctx context.Context, records *models.Something) error {
 	//return d.db.BatchInsert(ctx,records)
 	return nil
 }

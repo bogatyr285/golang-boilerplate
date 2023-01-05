@@ -60,8 +60,9 @@ func NewServeCmd() *cobra.Command {
 			instrumentalHTTP.Handle("/build", buildinfo.Handler(buildInfo))
 			instrumentalHTTP.AddSwagger(pb.APISwagger)
 
-			db := repository.NewDatabaseRepository()
-			doerService := doer.NewDoer(db)
+			db := repository.NewMongoDB()
+			wrappedDB := repository.NewDatabaseRepositoryWithTracing(db, "mongodb")
+			doerService := doer.NewDoer(wrappedDB)
 			doerGRPCCtrls := controllers.NewDoerController(doerService, logger)
 			doerGRPCServer := grpcServer.NewDoerGRPCServer(doerGRPCCtrls, logger)
 
